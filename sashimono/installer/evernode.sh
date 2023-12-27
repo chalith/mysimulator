@@ -27,4 +27,4 @@ fi
 echo "Found Sashimono $VERSION..."
 
 # Exucute the setup
-curl -fsSL $setup | cat | sudo NETWORK=devnet bash -s ${@}
+curl -fsSL $setup | cat | sudo NETWORK=devnet SKIP_SYSREQ=1 bash -s ${@}
