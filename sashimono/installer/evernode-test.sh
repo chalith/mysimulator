@@ -39,4 +39,4 @@ fi
 echo "Found Sashimono $VERSION..."
 
 # Exucute the setup
-curl -fsSL $setup | cat | sudo NETWORK=devnet OVERRIDE_EVERNODE_GOVERNOR_ADDRESS=rPUQXz57nWaXKSDu3ae7MAJ65qm2scBU5x SKIP_SYSREQ=1 NO_DOMAIN=1 bash -s ${@}
+curl -fsSL $setup | cat | sudo NETWORK=devnet OVERRIDE_EVERNODE_GOVERNOR_ADDRESS=rNLALMqr5KHRgktnzMfczFC3Z7h2xZhfoY SKIP_SYSREQ=1 NO_DOMAIN=1 bash -s ${@}
