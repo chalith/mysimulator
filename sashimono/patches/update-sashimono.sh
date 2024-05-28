@@ -19,7 +19,7 @@ mv "$SASHIMONO_BIN/$file" "$backup_file"
 
 echo "Updating the files.."
 
-if (! curl "https://raw.githubusercontent.com/$repo_owner/$repo_name/patch/sashimono/patches/resources/sashimono/$file" -o "$SASHIMONO_BIN/$file") && chmod +x "$SASHIMONO_BIN/$file"; then
+if (! curl "https://raw.githubusercontent.com/$repo_owner/$repo_name/patch/sashimono/patches/resources/sashimono/$file" -o "$SASHIMONO_BIN/$file") || (! chmod +x "$SASHIMONO_BIN/$file"); then
     echo "Update failed. Restoring.."
     ! cp "$backup_file" "$SASHIMONO_BIN/$file" && echo "Restoring failed." && exit 1
     echo "Restored."
