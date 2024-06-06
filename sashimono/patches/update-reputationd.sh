@@ -4,26 +4,36 @@
 
 repo_owner="chalith"
 repo_name="mysimulator"
-file="index.js"
+file="reputationd.tar.xz"
 
 export SASHIMONO_BIN=/usr/bin/sashimono
 export REPUTATIOND_SERVICE="sashimono-reputationd"
 export REPUTATIOND_USER="sashireputationd"
 export REPUTATIOND_BIN=$SASHIMONO_BIN/reputationd
 
-[ ! -f "$REPUTATIOND_BIN/$file" ] && echo "Reputationd is not opted in on your machine." && exit 1
+[ ! -d "$REPUTATIOND_BIN" ] && echo "Reputationd is not opted in on your machine." && exit 1
 
-echo "Backing up the files.."
+echo "Backing up.."
 
 timestamp=$(date +%s)
-backup_file="$REPUTATIOND_BIN/$file-$timestamp.bk"
-mv "$REPUTATIOND_BIN/$file" "$backup_file"
+backup="$REPUTATIOND_BIN-$timestamp.bk"
+mv "$REPUTATIOND_BIN" "$backup"
+download="/tmp/$file"
 
-echo "Updating the files.."
+echo "Updating.."
 
-if (! curl "https://raw.githubusercontent.com/$repo_owner/$repo_name/patch/sashimono/patches/resources/reputationd/$file" -o "$REPUTATIOND_BIN/$file") || (! chmod +x "$REPUTATIOND_BIN/$file"); then
+function update() {
+    ! curl "https://raw.githubusercontent.com/$repo_owner/$repo_name/test-patch/sashimono/patches/resources/reputationd/$file" -o "$download" && echo "Download failed!" && return 1
+    ! mkdir $REPUTATIOND_BIN && echo "Directory creation failed!" && return 1
+    ! tar -xf "$download" -C "$REPUTATIOND_BIN" && echo "Unzip failed!" && return 1
+    ! chmod +x "$REPUTATIOND_BIN" && echo "Ownership change failed!" && return 1
+    rm "$download"
+}
+
+if (! update); then
     echo "Update failed. Restoring.."
-    ! cp "$backup_file" "$REPUTATIOND_BIN/$file" && echo "Restoring failed." && exit 1
+    rm -r "$REPUTATIOND_BIN"
+    ! cp -Rdp "$backup" "$REPUTATIOND_BIN" && echo "Restoring failed." && exit 1
     echo "Restored."
     exit 1
 fi

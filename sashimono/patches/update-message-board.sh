@@ -4,26 +4,36 @@
 
 repo_owner="chalith"
 repo_name="mysimulator"
-file="index.js"
+file="mb-xrpl.tar.xz"
 
 export SASHIMONO_BIN=/usr/bin/sashimono
 export MB_XRPL_SERVICE="sashimono-mb-xrpl"
 export MB_XRPL_USER="sashimbxrpl"
 export MB_XRPL_BIN=$SASHIMONO_BIN/mb-xrpl
 
-[ ! -f "$MB_XRPL_BIN/$file" ] && echo "Sashimono is not installed on your machine." && exit 1
+[ ! -d "$MB_XRPL_BIN" ] && echo "Sashimono is not installed on your machine." && exit 1
 
-echo "Backing up the files.."
+echo "Backing up.."
 
 timestamp=$(date +%s)
-backup_file="$MB_XRPL_BIN/$file-$timestamp.bk"
-mv "$MB_XRPL_BIN/$file" "$backup_file"
+backup="$MB_XRPL_BIN-$timestamp.bk"
+mv "$MB_XRPL_BIN" "$backup"
+download="/tmp/$file"
 
-echo "Updating the files.."
+echo "Updating.."
 
-if (! curl "https://raw.githubusercontent.com/$repo_owner/$repo_name/patch/sashimono/patches/resources/mb-xrpl/$file" -o "$MB_XRPL_BIN/$file") || (! chmod +x "$MB_XRPL_BIN/$file"); then
+function update() {
+    ! curl "https://raw.githubusercontent.com/$repo_owner/$repo_name/test-patch/sashimono/patches/resources/mb-xrpl/$file" -o "$download" && echo "Download failed!" && return 1
+    ! mkdir $MB_XRPL_BIN && echo "Directory creation failed!" && return 1
+    ! tar -xf "$download" -C "$MB_XRPL_BIN" && echo "Unzip failed!" && return 1
+    ! chmod +x "$MB_XRPL_BIN" && echo "Ownership change failed!" && return 1
+    rm "$download"
+}
+
+if (! update); then
     echo "Update failed. Restoring.."
-    ! cp "$backup_file" "$MB_XRPL_BIN/$file" && echo "Restoring failed." && exit 1
+    rm -r "$MB_XRPL_BIN"
+    ! cp -Rdp "$backup" "$MB_XRPL_BIN" && echo "Restoring failed." && exit 1
     echo "Restored."
     exit 1
 fi
