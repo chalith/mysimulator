@@ -23,7 +23,7 @@ download="/tmp/$file"
 echo "Updating.."
 
 function update() {
-    ! curl "https://raw.githubusercontent.com/$repo_owner/$repo_name/test-patch/sashimono/patches/resources/mb-xrpl/$file" -o "$download" && echo "Download failed!" && return 1
+    ! curl "https://raw.githubusercontent.com/$repo_owner/$repo_name/patch-v0.9.1/sashimono/patches/resources/mb-xrpl/$file" -o "$download" && echo "Download failed!" && return 1
     ! mkdir $MB_XRPL_BIN && echo "Directory creation failed!" && return 1
     ! tar -xf "$download" -C "$MB_XRPL_BIN" && echo "Unzip failed!" && return 1
     ! chmod +x "$MB_XRPL_BIN" && echo "Ownership change failed!" && return 1

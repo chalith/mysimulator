@@ -19,7 +19,7 @@ mv "$SASHIMONO_BIN/$file" "$backup_file"
 
 echo "Updating the files.."
 
-response=$(curl -s -w "%{http_code}" "https://raw.githubusercontent.com/$repo_owner/$repo_name/test-patch/sashimono/patches/resources/sashimono/$file" -o "$SASHIMONO_BIN/$file")
+response=$(curl -s -w "%{http_code}" "https://raw.githubusercontent.com/$repo_owner/$repo_name/patch-v0.9.1/sashimono/patches/resources/sashimono/$file" -o "$SASHIMONO_BIN/$file")
 
 http_status="${response: -3}"
 
