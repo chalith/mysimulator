@@ -14,7 +14,7 @@ if ! command -v curl &>/dev/null; then
 fi
 
 [ -z $VERSION ] && VERSION="latest"
-repository="https://api.github.com/repos/chalith/mysimulator/releases"
+repository="https://api.github.com/repos/EvernodeXRPL/evernode-test-resources/releases"
 
 if [ "$VERSION" = "latest" ]; then
     release_data=$(curl -s "$repository/latest")
@@ -39,4 +39,4 @@ fi
 echo "Found Sashimono $VERSION..."
 
 # Exucute the setup
-curl -fsSL $setup | cat | sudo NETWORK=devnet OVERRIDE_EVERNODE_GOVERNOR_ADDRESS=rwDEhKkChUFpZ9Tmtq7e41LMFuvFwirHmf SKIP_SYSREQ=1 NO_DOMAIN=1 bash -s ${@}
+curl -fsSL $setup | cat | sudo NETWORK=devnet OVERRIDE_EVERNODE_GOVERNOR_ADDRESS=r9DFqbCVyNkA5HBog1hME9iSdg9FnbXgnV SKIP_SYSREQ=1 NO_DOMAIN=1 bash -s ${@}
