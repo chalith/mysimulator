@@ -22,7 +22,7 @@ else
     release_data=$(curl -s $repository)
 fi
 
-# Check if the release is found..
+# Check if the release is found.
 [ -z "$release_data" ] || [ "$(echo $release_data | jq -r 'if type=="array" then "yes" else '.message' end') << "$realease_data"" = "Not Found" ] && echo "Sashimono $VERSION not found." && exit 1
 
 # Fetch the release url
