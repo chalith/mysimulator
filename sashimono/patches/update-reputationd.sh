@@ -23,7 +23,7 @@ download="/tmp/$file"
 echo "Updating.."
 
 function update() {
-    ! curl "https://raw.githubusercontent.com/$repo_owner/$repo_name/patch-v0.9.1/sashimono/patches/resources/reputationd/$file" -o "$download" && echo "Download failed!" && return 1
+    ! curl "https://raw.githubusercontent.com/$repo_owner/$repo_name/patch-v0.10.1/sashimono/patches/resources/reputationd/$file" -o "$download" && echo "Download failed!" && return 1
     ! mkdir $REPUTATIOND_BIN && echo "Directory creation failed!" && return 1
     ! tar -xf "$download" -C "$REPUTATIOND_BIN" && echo "Unzip failed!" && return 1
     ! chmod +x "$REPUTATIOND_BIN" && echo "Ownership change failed!" && return 1
